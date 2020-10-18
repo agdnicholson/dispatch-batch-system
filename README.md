@@ -35,7 +35,7 @@ Below follows a set of examples of how to use some of the class functionality pr
 A more comprehensive example can be found in example-app.php in the root of the project.
 
 The email function has been tested and only needs to be uncommented in\
-app\Classes\DispatchBatch.php to work
+app\Classes\DispatchBatch.php for it to work.
 
 Currently the ftp functionality is blocked via an if statement but will presumably work ok when
     valid credentials are provided. This part of the endbatch functionality is still to be tested.
@@ -69,7 +69,7 @@ class RoyalMail extends Courier {
 
 Create the demo courier instance
 ```php
-$rmTransportCreds = ["to"=>"hello@some-domain.com, "from"=>"no-reply@some-domain.com"];
+$rmTransportCreds = ["to"=>"hello@some-domain.com", "from"=>"no-reply@some-domain.com"];
 $royalMail = new RoyalMail("Royal Mail", "email", $rmTransportCreds);
 ```
 
@@ -101,7 +101,9 @@ $dispatchBatch->endBatch();
 ```
 
 ##	To run the automated tests
-The following command should run the automated unit tests:\
+PHPUnit tests for the classes have been provided in the test\ directory.
+
+The following command should run these automated unit tests:\
 ./vendor/bin/phpunit tests
 
 ## Version history
