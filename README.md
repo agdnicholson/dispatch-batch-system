@@ -19,12 +19,15 @@ app\Classes\DispatchBatch.php
 The classes can be used via autoload. Composer is recommended.
 
 Once composer is installed or if you already have it simply running the following command should set things up:
-
+```console
 composer install
+```
 
 A temporary directory is required for any files generated for transport (For ftp in the example). Run the following
-command from the project root to set this up:\
+command from the project root to set this up:
+```console
 mkdir tmp
+```
 
 NOTE: The directory name should always correspond with the one provided in the DispatchBatch instance.
 
@@ -33,7 +36,10 @@ It should now be possible to run the example app (example-app.php implementation
 This can be executed via command line or in a browser if for example you have apache or
     a virtual hosting environment such as Docker already running.
 
-php example-app.php\
+```console
+php example-app.php
+```
+
 You should see the demo output in command line or browser window if example-app.php is ran from there.
 
 ## Class usage
@@ -109,9 +115,10 @@ $dispatchBatch->endBatch();
 ##	To run the automated tests
 PHPUnit tests for the classes have been provided in the test\ directory.
 
-The following command should run these automated unit tests:\
+The following command should run these automated unit tests:
+```console
 ./vendor/bin/phpunit tests
-
+```
 ## Version history
 v1.0 - 18 October 2020: Initial Version. 
 
