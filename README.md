@@ -16,19 +16,19 @@ app\Classes\CourierCollection.php\
 app\Classes\DispatchBatchLog.php\
 app\Classes\DispatchBatch.php
 
-The classes can be used via autoload. Composer is recommended.\
-Once composer is installed or if you already have it\
-    simply running the following command should set things up:
+The classes can be used via autoload. Composer is recommended.
+
+Once composer is installed or if you already have it simply running the following command should set things up:
 
 composer install
 
-It should now be possible to run the example app (example-app.php implementation found in the root of the project.\
+It should now be possible to run the example app (example-app.php implementation found in the root of the project.
 
 This can be executed via command line or in a browser if for example you have apache or
     a virtual hosting environment such as Docker already running.
 
 php example-app.php\
-You should see the demo output in command line.
+You should see the demo output in command line or browser window if example-app.php is ran from there.
 
 ## Class usage
 Below follows a set of examples of how to use some of the class functionality provided with this system.
@@ -37,10 +37,10 @@ A more comprehensive example can be found in example-app.php in the root of the 
 The email function has been tested and only needs to be uncommented in\
 app\Classes\DispatchBatch.php to work
 
-Currently the ftp functionality is blocked via an if statement but will presumably work ok when\
+Currently the ftp functionality is blocked via an if statement but will presumably work ok when
     valid credentials are provided. This part of the endbatch functionality is still to be tested.
 
-Extending the courier class is required so that we have a consignment algorithm for this courier:\
+Extending the courier class is required so that we have a consignment algorithm for this courier:
 ```php
 /**
  *  RoyalMail courier class, extends the abstract courier class.
@@ -79,7 +79,7 @@ $courierCollection = new CourierCollection();
 $courierCollection->addCourier($royalMail, "RM");
 ```
 
-Create the dispatchbatch instance with the courier collection and set the local\
+Create the dispatchbatch instance with the courier collection and set the local
     temporary storage folder for any temporary files that are generated for transport. 
 ```php
 $dispatchBatch = new DispatchBatch($courierCollection, 'tmp/');
