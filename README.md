@@ -14,15 +14,16 @@ The following classes have been implemented:\
 app\Classes\Courier.php (Abstract class to be extended so that a consignment algorithm can be provided)\
 app\Classes\CourierCollection.php\
 app\Classes\DispatchBatchLog.php\
-app\Classes\DispatchBatch.php\
+app\Classes\DispatchBatch.php
 
 The classes can be used via autoload. Composer is recommended.\
 Once composer is installed or if you already have it\
-    simply running the following command should set things up:\
+    simply running the following command should set things up:
 
 composer install
 
 It should now be possible to run the example app (example-app.php implementation found in the root of the project.\
+
 This can be executed via command line or in a browser if for example you have apache or
     a virtual hosting environment such as Docker already running.
 
@@ -45,16 +46,16 @@ Extending the courier class is required so that we have a consignment algorithm 
  *  RoyalMail courier class, extends the abstract courier class.
  *  Implements the required consignment algorithm method.
  * 
- * @author Andrew Nicholson (18 October 2020)
+ *  @author Andrew Nicholson (18 October 2020)
  */
 class RoyalMail extends Courier {
 
-	/**
+    /**
      * The required get consignmentnumber method.
      * A test implementation of the number algorithm.
      * 
-	 * @return string
-	 */
+     * @return string
+     */
 	public function getConsignmentNumber() : string
 	{
 		$randomNumber = "".strval(rand(1,9));
@@ -66,13 +67,13 @@ class RoyalMail extends Courier {
 }
 ```
 
-Create the demo courier instance\
+Create the demo courier instance
 ```php
 $rmTransportCreds = ["to"=>"hello@some-domain.com, "from"=>"no-reply@some-domain.com"];
 $royalMail = new RoyalMail("Royal Mail", "email", $rmTransportCreds);
 ```
 
-Create the courier collection and add our courier to it using a courier reference key.\
+Create the courier collection and add our courier to it using a courier reference key.
 ```php
 $courierCollection = new CourierCollection();
 $courierCollection->addCourier($royalMail, "RM");

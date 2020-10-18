@@ -26,9 +26,9 @@ $ftpPassword = "someemailaddress@somedomain.com";
 class RoyalMail extends Courier {
 
 	/**
-     * The required get consignmentnumber method.
-     * A test implementation of the number algorithm.
-     * 
+	 * The required get consignmentnumber method.
+	 * A test implementation of the number algorithm.
+	 * 
 	 * @return string
 	 */
 	public function getConsignmentNumber() : string
@@ -50,9 +50,9 @@ class RoyalMail extends Courier {
 class ANC extends Courier {
 
 	/**
-     * The required get consignmentnumber method.
-     * A test implementation of the number algorithm.
-     * 
+	 * The required get consignmentnumber method.
+	 * A test implementation of the number algorithm.
+	 * 
 	 * @return string
 	 */
 	public function getConsignmentNumber() : string

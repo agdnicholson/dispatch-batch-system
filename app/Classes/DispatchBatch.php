@@ -98,7 +98,7 @@ class DispatchBatch
 		// IF batch has started we can end it.
 		if ($this->batchStarted) {
 
-			// Loop through the cou
+			// Iterate through the couriers
 			foreach ($this->couriers as $courierRef => $courier) {
 
 				// If there are any consigments on the stack for this courier
