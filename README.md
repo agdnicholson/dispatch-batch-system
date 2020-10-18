@@ -22,6 +22,12 @@ Once composer is installed or if you already have it simply running the followin
 
 composer install
 
+A temporary directory is required for any files generated for transport (For ftp in the example). Run the following
+command from the project root to set this up:\
+mkdir tmp
+
+NOTE: The directory name should always correspond with the one provided in the DispatchBatch instance.
+
 It should now be possible to run the example app (example-app.php implementation found in the root of the project.
 
 This can be executed via command line or in a browser if for example you have apache or
