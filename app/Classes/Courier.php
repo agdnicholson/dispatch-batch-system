@@ -106,7 +106,7 @@ class Courier
 			 * Here we would want to call a database model / instance to ensure 
 			 * 	our generated consignment number is unique. Loop until we have a new 
 			 *	unique one.
-			 */
+			*/
 			$newConsignmentNumber= call_user_func($this->consignmentAlgorithm);
 		}
 		return $newConsignmentNumber;

@@ -68,8 +68,8 @@ class CourierCollection
 	 */
 	public function getCourier(string $courierRef) : ?Courier 
 	{
-		return array_key_exists($courierRef, $this->couriers) ?
-			$this->couriers[$courierRef] : NULL;
+	return array_key_exists($courierRef, $this->couriers) ?
+		$this->couriers[$courierRef] : NULL;
 	}
 
 	/**
