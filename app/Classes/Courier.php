@@ -4,33 +4,17 @@ declare(strict_types=1);
 namespace App\Classes;
 
 /**
- * Abstract Courier class
- * To be extended by a courier class for useage.
- * Contains name, transport method and transport credentials.
+ * Courier class
+ * Contains name, transport method, transport credentials and
+ * 	consignment number algorithm (to be passed as a callable function).
+ * A courier instance will probably hold more information in a real world
+ * 	scenario.
  * 
- * The class enforces an implementation of a consignment number
- * 	algorithm.
- * Usage example:
+ * @todo implement consignment number lookup to ensure only unique one is returned
  * 
- * class MyCourierCompany extends Courier {
- * 	public function getConsignmentNumber() : string
- *	{
- *		$randomNumber = "".strval(rand(1,9));
- *		for ($i = 0; $i < 9; $i++) {
- *			$randomNumber .= strval(rand(0,9));
- *		}
- *		return $randomNumber."-GB";
- * 	}
- * }
- * 
- * If two couriers share the same consignmentNumber algorithm it is wise
- * 	to re-use the extended class and give it a more generic name.
- * However you must make sure the courier references that are used in the
- * 	CourierCollection and DispatchBatch classes are still unique.
- * 
- * @author Andrew Nicholson (18 October 2020)
+ * @author Andrew Nicholson (21 October 2020)
  */
-abstract class Courier
+class Courier
 {
 	/**
 	 * @var string
@@ -48,20 +32,30 @@ abstract class Courier
 	protected $transportCredentials;
 
 	/**
-	 * Constructor to be used to implement the extended courier class.
-	 * Requires name, transport method and transport creds to be initiated.
+	 * @var callable
+	 */
+	protected $consignmentAlgorithm;
+
+	/**
+	 * Courier constructor
+	 * Requires name, transport method, transport creds
+	 * 	and a callable consignment algorithm number 
+	 * 	function to be initiated.
 	 * 
 	 * @param string $name
 	 * @param string $transportMethod
 	 * @param array $transportCredentials
+	 * @param callable $consignmentAlgorithm
 	 */
 	public function __construct(string $name,
 		string $transportMethod,
-		array $transportCredentials
+		array $transportCredentials,
+		callable $consignmentAlgorithm
 	) {
 		$this->name = $name;
 		$this->transportMethod = $transportMethod;
 		$this->transportCredentials = $transportCredentials;
+		$this->consignmentAlgorithm = $consignmentAlgorithm;
 	}
 
 	/**
@@ -95,10 +89,26 @@ abstract class Courier
 	}
 
 	/**
-	 * Mandatory abstract method for implementing a consignment
-	 * 	algorithm for a courier.
+	 * The consignment number getter which will call the callable 
+	 * 	function that will have been passed. Here we can also implement
+	 * 	a lookup routine to ensure the number returned is unique and 
+	 * 	hasn't been used before.
+	 * 
+	 * @todo implement consignment number lookup to ensure we return unique new one.
 	 * 
 	 * @return string
 	 */
-	abstract public function getConsignmentNumber() : string;
+	public function getConsignmentNumber() : string
+	{
+		$newConsignmentNumber= call_user_func($this->consignmentAlgorithm);
+		while (1===2) {
+			/**
+			 * Here we would want to call a database model / instance to ensure 
+			 * 	our generated consignment number is unique. Loop until we have a new 
+			 *	unique one.
+			 */
+			$newConsignmentNumber= call_user_func($this->consignmentAlgorithm);
+		}
+		return $newConsignmentNumber;
+	}
 }

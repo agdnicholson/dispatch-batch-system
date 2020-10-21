@@ -11,10 +11,13 @@ This system is currently a skeleton project of classes and does not have databas
 
 ## Getting Started
 The following classes have been implemented:\
-app\Classes\Courier.php (Abstract class to be extended so that a consignment algorithm can be provided)\
+app\Classes\Courier.php\
 app\Classes\CourierCollection.php\
-app\Classes\DispatchBatchLog.php\
-app\Classes\DispatchBatch.php
+app\Classes\Consignment.php\
+app\Classes\DispatchBatchManager.php\
+app\Classes\DispatchBatchTransport.php\
+app\Classes\DispatchBatchTransportLog.php
+
 
 The classes can be used via autoload. Composer is recommended.
 
@@ -29,7 +32,7 @@ command from the project root to set this up:
 mkdir tmp
 ```
 
-NOTE: The directory name should always correspond with the one provided in the DispatchBatch instance.
+NOTE: The directory name should always correspond with the one provided in the DispatchBatchTransport constructor.
 
 It should now be possible to run the example app (example-app.php implementation found in the root of the project.
 
@@ -47,54 +50,38 @@ Below follows a set of examples of how to use some of the class functionality pr
 A more comprehensive example can be found in example-app.php in the root of the project.
 
 The email function has been tested and only needs to be uncommented in\
-app\Classes\DispatchBatch.php for it to work.
+app\Classes\DispatchBatchTransport.php for it to work.
 
 Currently the ftp functionality is blocked via an if statement but will presumably work ok when
-    valid credentials are provided. This part of the endbatch functionality is still to be tested.
+    valid credentials are provided. This part of the transport functionality is still to be tested.
 
-Extending the courier class is required so that we have a consignment algorithm for this courier:
+We can create a required consignment number algorithm for a new Courier instance as so:
 ```php
-/**
- *  RoyalMail courier class, extends the abstract courier class.
- *  Implements the required consignment algorithm method.
- * 
- *  @author Andrew Nicholson (18 October 2020)
- */
-class RoyalMail extends Courier {
-
-    /**
-     * The required get consignmentnumber method.
-     * A test implementation of the number algorithm.
-     * 
-     * @return string
-     */
-	public function getConsignmentNumber() : string
-	{
-		$randomNumber = "".strval(rand(1,9));
-		for ($i = 0; $i < 9; $i++) {
-			$randomNumber .= strval(rand(0,9));
-		}
-		return $randomNumber."-GB";
+$rmConsignmentNoAlgorithm = function()
+{
+	$randomNumber = "".strval(rand(1,9));
+	for ($i = 0; $i < 9; $i++) {
+		$randomNumber .= strval(rand(0,9));
 	}
-}
+	return $randomNumber."-GB";
+};
 ```
 
 Create the demo courier instance
 ```php
-$rmTransportCreds = ["to"=>"hello@some-domain.com", "from"=>"no-reply@some-domain.com"];
-$royalMail = new RoyalMail("Royal Mail", "email", $rmTransportCreds);
+$rmTransportCreds = ["to"=>$testEmailAddress, "from"=>$testFromAddress];
+$royalMail = new Courier("Royal Mail", "email", $rmTransportCreds, $rmConsignmentNoAlgorithm);
 ```
 
-Create the courier collection and add our courier to it using a courier reference key.
+Create the courier collection and add our courier to it.
 ```php
 $courierCollection = new CourierCollection();
-$courierCollection->addCourier($royalMail, "RM");
+$courierCollection->addCourier($royalMail);
 ```
 
-Create the dispatchbatch instance with the courier collection and set the local
-    temporary storage folder for any temporary files that are generated for transport. 
+Create the dispatchbatch manager instance with the courier collection.
 ```php
-$dispatchBatch = new DispatchBatch($courierCollection, 'tmp/');
+$dispatchBatch = new DispatchBatchManager($courierCollection);
 ```
 
 Start the batch
@@ -102,9 +89,15 @@ Start the batch
 $dispatchBatch->startBatch();
 ```
 
-Add a consignment
+Create a consignment. We pass the courier name and a generated consignment number upon
+instantiation.
 ```php
-$dispatchBatch->addConsignment("RM");
+$consignment = new Consignment($royalMail->getName(), $royalMail->getConsignmentNumber());
+```
+
+Add the consignment to the batch
+```php
+$dispatchBatch->addConsignment($consignment);
 ```
 
 End the batch
@@ -120,6 +113,14 @@ The following command should run these automated unit tests:
 ./vendor/bin/phpunit tests
 ```
 ## Version history
+v2.0 - 21 October 2020: Improved Version
+    *   Consignment class / objects for better future enhancements as we
+        can imagine consignments will hold many more details.
+    *   Pass consignment number algorithm as parameter to Courier classs,
+        meaning no need for abstract extension.
+    *   Separate Dispatch Batch Transport from Dispatch Batch Manager class and
+        rename log class to reflect that it is only dealing with transport tracking.    
+
 v1.0 - 18 October 2020: Initial Version. 
 
 ### Prerequisites

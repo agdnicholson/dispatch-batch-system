@@ -7,9 +7,9 @@ namespace App\Classes;
  * Log class for dispatch batches.
  * Contains static methods to write a success and/or error log.
  * 
- * @author Andrew Nicholson (18 October 2020)
+ * @author Andrew Nicholson (21 October 2020)
  */
-class DispatchBatchLog
+class DispatchBatchTransportLog
 {
 
 	/**

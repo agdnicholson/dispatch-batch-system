@@ -7,18 +7,30 @@ use App\Classes\Courier;
 /**
  * Courier Class Test Cases
  *
- * @author Andrew Nicholson (18 October 2020)
+ * @author Andrew Nicholson (21 October 2020)
  */
 final class CourierTest extends TestCase
 {
     /**
-     * Tests the extended courier classes are still also courier objects
+     * Tests we can create a Courier object.
      * 
      * @return void
      */
     public function testCourierInstance(): void
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
         $this->assertInstanceOf(Courier::class, $royalMail);
     }
 
@@ -29,7 +41,19 @@ final class CourierTest extends TestCase
      */
     public function testCourierName(): void
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
         $this->assertEquals("Royal Mail", 
             $royalMail->getName());
     }
@@ -41,7 +65,19 @@ final class CourierTest extends TestCase
      */
     public function testCourierTransportMethod(): void
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
         $this->assertEquals("email", 
             $royalMail->getTransportMethod());
     }
@@ -53,9 +89,21 @@ final class CourierTest extends TestCase
      */
     public function testCourierTransportCredentials(): void
     {
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
         $transportCreds = ["to" => "some-email@somedomain.com",
             "from" => "some-email@somedomain.com"];
-        $royalMail = new RoyalMail("Royal Mail", "email", $transportCreds);
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                $transportCreds, 
+                $rmConsignmentNoAlgorithm
+            );
         $this->assertEquals($transportCreds, 
             $royalMail->getTransportCredentials());
     }
@@ -68,9 +116,17 @@ final class CourierTest extends TestCase
      */
     public function testConsignmentAlgorithmContent(): void
     {
-        $royalMail = new ANC("ANC", "email", []);
+        $ancConsignmentNoAlgorithm = function() : string
+        {
+            $randomNumber = date('Ymd')."";
+            for ($i = 0; $i < 6; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber;
+        };
+        $ANC = new Courier("ANC", "email", [], $ancConsignmentNoAlgorithm);
         $this->assertStringStartsWith(date('Ymd'), 
-            $royalMail->getConsignmentNumber());
+            $ANC->getConsignmentNumber());
     }
 
     /**
@@ -80,56 +136,16 @@ final class CourierTest extends TestCase
      */
     public function testConsigmentAlgorithmLength(): void 
     {
-        $royalMail = new ANC("ANC", "email", []);
+        $ancConsignmentNoAlgorithm = function() : string
+        {
+            $randomNumber = date('Ymd')."";
+            for ($i = 0; $i < 6; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber;
+        };
+        $ANC = new Courier("ANC", "email", [], $ancConsignmentNoAlgorithm);
         $this->assertEquals(strlen(date('Ymd')."123456"), 
-            strlen($royalMail->getConsignmentNumber()));
+            strlen($ANC->getConsignmentNumber()));
     }
-}
-
-/**
- *  RoyalMail courier class, extends the abstract courier class.
- *  Implements the required consignment algorithm method.
- * 
- * @author Andrew Nicholson (18 October 2020)
- */
-class RoyalMail extends Courier {
-
-	/**
-     * The required get consignmentnumber method.
-     * A test implementation of the number algorithm.
-     * 
-	 * @return string
-	 */
-	public function getConsignmentNumber() : string
-	{
-		$randomNumber = "".strval(rand(1,9));
-		for ($i = 0; $i < 9; $i++) {
-			$randomNumber .= strval(rand(0,9));
-		}
-		return $randomNumber."-GB";
-	}
-}
-
-/**
- * ANC courier class, extends the abstract courier class
- * Implements the required consignment algorithm method.
- * 
- * @author Andrew Nicholson (18 October 2020)
- */
-class ANC extends Courier {
-
-	/**
-     * The required get consignmentnumber method.
-     * A test implementation of the number algorithm.
-     * 
-	 * @return string
-	 */
-	public function getConsignmentNumber() : string
-	{
-		$randomNumber = date('Ymd')."";
-		for ($i = 0; $i < 6; $i++) {
-			$randomNumber .= strval(rand(0,9));
-		}
-		return $randomNumber;
-	}
 }

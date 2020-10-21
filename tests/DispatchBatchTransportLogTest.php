@@ -2,14 +2,14 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use App\Classes\DispatchBatchLog;
+use App\Classes\DispatchBatchTransportLog;
 
 /**
- * DispatchBatchLog Class Test Cases
+ * DispatchBatchTransportLog Class Test Cases
  * 
- * @author Andrew Nicholson (18 October 2020)
+ * @author Andrew Nicholson (21 October 2020)
  */
-final class DispatchBatchLogTest extends TestCase
+final class DispatchBatchTransportLogTest extends TestCase
 {
     /**
      * Test we can make a success log
@@ -19,7 +19,7 @@ final class DispatchBatchLogTest extends TestCase
     public function testSuccessLog(): void
     {
         $this->assertEquals(TRUE, 
-            DispatchBatchLog::logSuccess("RM", date('Ymd'), "email", []));
+        DispatchBatchTransportLog::logSuccess("Royal Mail", date('Ymd'), "email", []));
     }
 
     /**
@@ -30,6 +30,6 @@ final class DispatchBatchLogTest extends TestCase
     public function testErrorLog(): void
     {
         $this->assertEquals(TRUE, 
-            DispatchBatchLog::logError("RM", date('Ymd'), "email", []));
+        DispatchBatchTransportLog::logError("Royal Mail", date('Ymd'), "email", []));
     }
 }

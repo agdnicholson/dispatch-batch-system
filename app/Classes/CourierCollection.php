@@ -5,10 +5,11 @@ namespace App\Classes;
 
 /**
  * Courier Collection class.
- * An istance of this can hold extended Courier objects as array
- * 	by using a reference for each as a key.
+ * An instance of this can hold Courier objects as array
+ * 	by using a reference / the name as a key. This will
+ * 	make lookup much easier / quicker.
  * 
- * @author Andrew Nicholson (18 October 2020)
+ * @author Andrew Nicholson (21 October 2020)
  */
 class CourierCollection
 {
@@ -18,6 +19,7 @@ class CourierCollection
 	protected $couriers;
 
 	/**
+	 * Courier Collection constructor
 	 */
 	public function __construct()
 	{
@@ -25,23 +27,23 @@ class CourierCollection
 	}
 
 	/**
-	 * Adds an extended courier object to the collection
+	 * Adds a courier object to the collection.
+	 * We use the name of the courier as a key for quick look up.
 	 * 
 	 * @param Courier $courier
-	 * @param string $courierRef
 	 * 
 	 * @return void
 	 */
-	public function addCourier(Courier $courier, string $courierRef) : void 
+	public function addCourier(Courier $courier) : void 
 	{
-		if (!array_key_exists($courierRef, $this->couriers)) {
-			$this->couriers[$courierRef] = $courier;
+		if (!array_key_exists($courier->getName(), $this->couriers)) {
+			$this->couriers[$courier->getName()] = $courier;
 		}
 	}
 
 	/**
 	 * If valid courier reference is passed, it unsets the 
-	 * 	associated extended courier object in the collection
+	 * 	associated courier object in the collection
 	 * 
 	 * @param string $courierRef
 	 * 
@@ -56,7 +58,7 @@ class CourierCollection
 
 	/**
 	 * If valid courier reference is passed it returns the associated
-	 * 	extended courier object from the collection
+	 * 	courier object from the collection.
 	 * 
 	 * @param string $courierRef
 	 * 
@@ -69,7 +71,7 @@ class CourierCollection
 	}
 
 	/**
-	 * Returns the array of extended courier objects
+	 * Returns the array of courier objects
 	 * 
 	 * @return array
 	 */

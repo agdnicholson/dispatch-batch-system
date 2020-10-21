@@ -8,7 +8,7 @@ use App\Classes\CourierCollection;
 /**
  * CourierCollection Class Test Cases
  * 
- * @author Andrew Nicholson (18 October 2020)
+ * @author Andrew Nicholson (21 October 2020)
  */
 final class CourierCollectionTest extends TestCase
 {
@@ -19,11 +19,33 @@ final class CourierCollectionTest extends TestCase
      */
     public function testAddCourier(): void
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
-        $ANC = new ANC("ANC", "email", []);
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
+
+        $ancConsignmentNoAlgorithm = function() : string
+        {
+            $randomNumber = date('Ymd')."";
+            for ($i = 0; $i < 6; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber;
+        };
+        $ANC = new Courier("ANC", "email", [], $ancConsignmentNoAlgorithm);
+
         $courierCollection = new CourierCollection();
-        $courierCollection->addCourier($royalMail, "RM");
-        $courierCollection->addCourier($ANC, "ANC");
+        $courierCollection->addCourier($royalMail);
+        $courierCollection->addCourier($ANC);
 
         $this->assertCount(2, $courierCollection->getAllCouriers());
     }
@@ -36,13 +58,35 @@ final class CourierCollectionTest extends TestCase
      */
     public function testAddingDuplicateCourierHasNoEffect(): void 
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
-        $ANC = new ANC("ANC", "email", []);
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
+
+        $ancConsignmentNoAlgorithm = function() : string
+        {
+            $randomNumber = date('Ymd')."";
+            for ($i = 0; $i < 6; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber;
+        };
+        $ANC = new Courier("ANC", "email", [], $ancConsignmentNoAlgorithm);
+
         $courierCollection = new CourierCollection();
-        $courierCollection->addCourier($royalMail, "RM");
-        $courierCollection->addCourier($royalMail, "RM");
-        $courierCollection->addCourier($ANC, "ANC");
-        $courierCollection->addCourier($ANC, "ANC");
+        $courierCollection->addCourier($royalMail);
+        $courierCollection->addCourier($royalMail);
+        $courierCollection->addCourier($ANC);
+        $courierCollection->addCourier($ANC);
 
         $this->assertCount(2, $courierCollection->getAllCouriers());
     }
@@ -54,12 +98,25 @@ final class CourierCollectionTest extends TestCase
      */
     public function testDeleteCourier(): void 
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
-        $courierCollection = new CourierCollection();
-        $courierCollection->addCourier($royalMail, "RM");
-        $courierCollection->deleteCourier("RM");
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
 
-        $this->assertEquals(NULL, $courierCollection->getCourier("RM"));
+        $courierCollection = new CourierCollection();
+        $courierCollection->addCourier($royalMail);
+        $courierCollection->deleteCourier("Royal Mail");
+
+        $this->assertEquals(NULL, $courierCollection->getCourier("Royal Mail"));
     }
 
     /**
@@ -70,11 +127,24 @@ final class CourierCollectionTest extends TestCase
      */
     public function testGetCourier(): void 
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
-        $courierCollection = new CourierCollection();
-        $courierCollection->addCourier($royalMail, "RM");
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
 
-        $this->assertEquals($royalMail, $courierCollection->getCourier("RM"));
+        $courierCollection = new CourierCollection();
+        $courierCollection->addCourier($royalMail);
+
+        $this->assertEquals($royalMail, $courierCollection->getCourier("Royal Mail"));
     }
 
     /**
@@ -84,14 +154,36 @@ final class CourierCollectionTest extends TestCase
      */
     public function testGetAllCouriers(): void 
     {
-        $royalMail = new RoyalMail("Royal Mail", "email", []);
-        $ANC = new ANC("ANC", "email", []);
+        $rmConsignmentNoAlgorithm = function()
+        {
+            $randomNumber = "".strval(rand(1,9));
+            for ($i = 0; $i < 9; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber."-GB";
+        };
+        $royalMail = new Courier("Royal Mail", 
+                "email", 
+                [], 
+                $rmConsignmentNoAlgorithm
+            );
+
+        $ancConsignmentNoAlgorithm = function() : string
+        {
+            $randomNumber = date('Ymd')."";
+            for ($i = 0; $i < 6; $i++) {
+                $randomNumber .= strval(rand(0,9));
+            }
+            return $randomNumber;
+        };
+        $ANC = new Courier("ANC", "email", [], $ancConsignmentNoAlgorithm);
+
         $courierCollection = new CourierCollection();
-        $courierCollection->addCourier($royalMail, "RM");
-        $courierCollection->addCourier($ANC, "ANC");
+        $courierCollection->addCourier($royalMail);
+        $courierCollection->addCourier($ANC);
 
         $this->assertEquals(
-            ["RM" => $royalMail, "ANC" => $ANC], 
+            ["Royal Mail" => $royalMail, "ANC" => $ANC], 
             $courierCollection->getAllCouriers());
     }
 }
