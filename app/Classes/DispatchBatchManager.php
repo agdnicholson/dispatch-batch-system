@@ -78,11 +78,11 @@ class DispatchBatchManager
 	 */
 	public function endBatch() : void
 	{
-		// IF batch has started we can end it.
-		if ($this->batchStarted) {
+        // IF batch has started we can end it.
+        if ($this->batchStarted) {
 
-			// Iterate through the couriers
-			foreach ($this->couriers as $courierRef => $courier) {
+            // Iterate through the couriers
+            foreach ($this->couriers as $courierRef => $courier) {
 
                 // If there are any consigments on the stack for this courier
                 if (array_key_exists($courierRef, $this->consignmentStack)) {
@@ -93,11 +93,11 @@ class DispatchBatchManager
                         );
                     $dbTransport->send();
                 }
-			}
+            }
 
-			// Mark batch as started as false
-			$this->batchStarted = FALSE;
-		}
+            // Mark batch as started as false
+            $this->batchStarted = FALSE;
+        }
 	}
 
 	/**
