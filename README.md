@@ -114,11 +114,11 @@ The following command should run these automated unit tests:
 ```
 ## Version history
 v2.0 - 21 October 2020: Improved Version
-    -   Consignment class / objects for better future enhancements as we
+- Consignment class / objects for better future enhancements as we
         can imagine consignments will hold many more details.
-    -   Pass consignment number algorithm as parameter to Courier classs,
+- Pass consignment number algorithm as parameter to Courier classs,
         meaning no need for abstract extension.
-    -   Separate Dispatch Batch Transport from Dispatch Batch Manager class and
+- Separate Dispatch Batch Transport from Dispatch Batch Manager class and
         rename log class to reflect that it is only dealing with transport tracking.    
 
 v1.0 - 18 October 2020: Initial Version. 
