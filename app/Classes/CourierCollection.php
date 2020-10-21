@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
+use App\Classes\Courier;
+
 /**
  * Courier Collection class.
  * An instance of this can hold Courier objects as array

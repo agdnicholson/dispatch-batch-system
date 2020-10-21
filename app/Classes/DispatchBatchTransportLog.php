@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Classes;
 
 /**
- * Log class for dispatch batches.
+ * Log class for dispatch batches transport instances.
  * Contains static methods to write a success and/or error log.
  * 
  * @author Andrew Nicholson (21 October 2020)

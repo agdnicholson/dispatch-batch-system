@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Classes\DispatchBatchLog;
-use App\Classes\Consignment;
 use App\Classes\DispatchBatchTransport;
+use App\Classes\Consignment;
 
 /**
  * Dispatch Batch Manager class
@@ -48,7 +47,7 @@ class DispatchBatchManager
 	public function __construct(CourierCollection $couriersCol) 
 	{
 		// Default Dispatch Batch Values
-		$this->couriers = $couriersCol->getAllCouriers();
+        $this->couriers = $couriersCol->getAllCouriers();
         $this->batchStarted = FALSE;
         $this->consignmentStack = [];
 	}
@@ -84,16 +83,16 @@ class DispatchBatchManager
 
 			// Iterate through the couriers
 			foreach ($this->couriers as $courierRef => $courier) {
-                
-				// If there are any consigments on the stack for this courier
-				if (array_key_exists($courierRef, $this->consignmentStack)) {
+
+                // If there are any consigments on the stack for this courier
+                if (array_key_exists($courierRef, $this->consignmentStack)) {
                     $dbTransport = new DispatchBatchTransport(
                             $this->batchDate,
                             $courier, 
                             $this->consignmentStack[$courierRef]
                         );
                     $dbTransport->send();
-				}
+                }
 			}
 
 			// Mark batch as started as false
